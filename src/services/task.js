@@ -1,33 +1,35 @@
+const db = require('../../database/models');
 
-let TASKS = [];
 class TaskServices {
-  static createTask(name) {
-    const task = {
-      id: (TASKS.length + 1).toString(),
-      name: name,
-      isComplete: false
-    };
+  static async createTask(name) {
 
-    TASKS.push(task);
+    const task = await db.Task.create({ name: name, isCompleted: false });
     return task;
   }
-  static getTasks() {
-    return TASKS;
+
+  static async getTasks() {
+    const tasks = await db.Task.findAll();
+    return tasks;
   }
-  static getTaskById({ id }) {
-    return TASKS.find(element => element.id === String(id));
+
+  static async getTaskById({ id }) {
+    const task = await db.Task.findOne({ where: { id: Number(id) } });
+    return task;
   }
-  static updateTaskById(id, task) {
-    TASKS[TASKS.indexOf(TASKS.find(element => element.id === String(id)))] = task;
-    return TASKS.find(element => element.id === id);
+
+  static async updateTaskById(id, _task) {
+    const task = await db.Task.update(_task, { where: { id: Number(id) } });
+    return task;
   }
-  static changeStatusOfTaskById(id) {
-    TASKS[TASKS.indexOf(TASKS.find(element => element.id === String(id)))].isComplete = true;
-    return TASKS[TASKS.indexOf(TASKS.find(element => element.id === String(id)))];
+
+  static async changeStatusOfTaskById(id) {
+    const task = await db.Task.update({ isCompleted: true }, { where: { id: Number(id) } });
+    return task;
   }
-  static deleteCompletedTasks() {
-    TASKS = TASKS.filter(element => element.isComplete == false);
-    return TASKS;
+
+  static async deleteCompletedTasks() {
+    const task = await db.Task.destroy({ where: { isCompleted: true } });
+    return task;
   }
 
 }
