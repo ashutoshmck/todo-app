@@ -1,36 +1,36 @@
-const db = require('../../database/models');
+const Tasks = require('../../database/models').Task;
 
 class TaskServices {
-  static async createTask(name) {
+  static createTask = async (name) => {
 
-    const task = await db.Task.create({ name: name, isCompleted: false });
+    const task = await Tasks.create({ name: name, isCompleted: false });
     return task;
-  }
+  };
 
-  static async getTasks() {
-    const tasks = await db.Task.findAll();
+  static getTasks = async () => {
+    const tasks = await Tasks.findAll();
     return tasks;
-  }
+  };
 
-  static async getTaskById({ id }) {
-    const task = await db.Task.findOne({ where: { id: Number(id) } });
+  static getTaskById = async ({ id }) => {
+    const task = await Tasks.findOne({ where: { id: Number(id) } });
     return task;
-  }
+  };
 
-  static async updateTaskById(id, _task) {
-    const task = await db.Task.update(_task, { where: { id: Number(id) } });
+  static updateTaskById = async (id, _task) => {
+    const task = await Tasks.update(_task, { where: { id: Number(id) } });
     return task;
-  }
+  };
 
-  static async changeStatusOfTaskById(id) {
-    const task = await db.Task.update({ isCompleted: true }, { where: { id: Number(id) } });
+  static changeStatusOfTaskById = async (id) => {
+    const task = await Tasks.update({ isCompleted: true }, { where: { id: Number(id) } });
     return task;
-  }
+  };
 
-  static async deleteCompletedTasks() {
-    const task = await db.Task.destroy({ where: { isCompleted: true } });
+  static deleteCompletedTasks = async () => {
+    const task = await Tasks.destroy({ where: { isCompleted: true } });
     return task;
-  }
+  };
 
 }
 module.exports = { TaskServices };
