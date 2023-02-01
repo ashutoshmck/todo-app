@@ -2,7 +2,6 @@ const Tasks = require('../../database/models').Task;
 
 class TaskServices {
   static createTask = async (name) => {
-
     const task = await Tasks.create({ name: name, isCompleted: false });
     return task;
   };

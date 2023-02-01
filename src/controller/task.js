@@ -1,12 +1,11 @@
-const { TaskServices } = require('../services/task');
+const { TaskServices } = require('../ services / task');
 
 class TaskController {
   static createTask = async (
     request, response
   ) => {
     let task = await TaskServices.createTask(request.body.name);
-    return response.status(201).json({ status: 201, data: task, message: 'Succesfully Task Created' });
-
+    return response.status(201).json({ status: 201, data: task, message: `Succesfully  Created ${request.body.name} task` });
   };
 
   static getTasks = async (request, response) => {
